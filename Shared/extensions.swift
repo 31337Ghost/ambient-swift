@@ -21,14 +21,22 @@ extension Color {
     #endif
 
     var rgba: (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) {
+        #if canImport(UIKit)
+        let color = UIColor(self)
+        #elseif canImport(AppKit)
         let color = asNative.usingColorSpace(.deviceRGB)!
+        #endif
         var t = (CGFloat(), CGFloat(), CGFloat(), CGFloat())
         color.getRed(&t.0, green: &t.1, blue: &t.2, alpha: &t.3)
         return t
     }
 
     var hsva: (hue: CGFloat, saturation: CGFloat, value: CGFloat, alpha: CGFloat) {
+        #if canImport(UIKit)
+        let color = UIColor(self)
+        #elseif canImport(AppKit)
         let color = asNative.usingColorSpace(.deviceRGB)!
+        #endif
         var t = (CGFloat(), CGFloat(), CGFloat(), CGFloat())
         color.getHue(&t.0, saturation: &t.1, brightness: &t.2, alpha: &t.3)
         return t
